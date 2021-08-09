@@ -38,12 +38,12 @@ function MapContainer(props) {
   const [selectedPetition, setSelectedPetition] = useState({});
 
   const onMarkerClick = (props, marker, e) => {
-    setInfoWindow(true);
     setActivePetition(marker);
     setSelectedPetition(props);
+    setInfoWindow(true);
   };
 
-  const onClose = (props) => {
+  const onClose = () => {
     if (infoWindow) {
       setInfoWindow(false);
       setActivePetition(null);
