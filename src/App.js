@@ -1,14 +1,7 @@
 import React from "react";
 import { BrowserRouter as Switch, Route } from "react-router-dom";
 
-import { Map, GoogleApiWrapper } from "google-maps-react";
-
-const apiKey = process.env.REACT_APP_GOOGLE_MAPS_API_KEY;
-
-const mapStyles = {
-  width: "100%",
-  height: "100%",
-};
+import HomePage from './pages/HomePage/HomePage'
 
 function DetailPage() {
   return (
@@ -18,32 +11,12 @@ function DetailPage() {
   );
 }
 
-function HomePage(props) {
-  return (
-    <div>
-      <h1>Home Page</h1>
-      <Map
-        google={props.google}
-        zoom={14}
-        style={mapStyles}
-        initialCenter={{
-          lat: 10.7469,
-          lng: 106.6763,
-        }}
-      />
-    </div>
-  );
-}
-
-const MapContainer = GoogleApiWrapper({
-  apiKey,
-})(HomePage);
 
 function App() {
   return (
     <div>
       <Switch>
-        <Route path="/" exact component={MapContainer} />
+        <Route path="/" exact component={HomePage} />
         <Route path="/movie/:id" exact component={DetailPage} />
       </Switch>
     </div>
