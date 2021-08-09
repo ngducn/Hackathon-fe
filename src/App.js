@@ -20,15 +20,18 @@ function DetailPage() {
 
 function HomePage(props) {
   return (
-    <Map
-      google={props.google}
-      zoom={14}
-      style={mapStyles}
-      initialCenter={{
-        lat: 10.7469,
-        lng: 106.6763,
-      }}
-    />
+    <div>
+      <h1>Home Page</h1>
+      <Map
+        google={props.google}
+        zoom={14}
+        style={mapStyles}
+        initialCenter={{
+          lat: 10.7469,
+          lng: 106.6763,
+        }}
+      />
+    </div>
   );
 }
 
