@@ -33,20 +33,20 @@ const petitions = [
 ];
 
 function MapContainer(props) {
-  const [selectedPetition, setSelectedPetition] = useState({});
-  const [activePetition, setActivePetition] = useState({});
   const [infoWindow, setInfoWindow] = useState(false);
+  const [activePetition, setActivePetition] = useState({});
+  const [selectedPetition, setSelectedPetition] = useState({});
 
   const onMarkerClick = (props, marker, e) => {
-    setSelectedPetition(props);
-    setActivePetition(marker);
     setInfoWindow(true);
+    setActivePetition(marker);
+    setSelectedPetition(props);
   };
 
   const onClose = (props) => {
     if (infoWindow) {
-      setActivePetition(null);
       setInfoWindow(false);
+      setActivePetition(null);
     }
   };
 
@@ -71,8 +71,8 @@ function MapContainer(props) {
       })}
       <InfoWindow
         onClose={onClose}
-        marker={activePetition}
         visible={infoWindow}
+        marker={activePetition}
       >
         <div style={{ height: 300, width: 300, backgroundColor: "red" }}>
           <h4>{selectedPetition.name}</h4>
