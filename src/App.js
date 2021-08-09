@@ -1,4 +1,5 @@
 import React from 'react'
+import { BrowserRouter as Switch, Route } from "react-router-dom";
 
 import { Map, GoogleApiWrapper } from "google-maps-react";
 
@@ -9,22 +10,43 @@ const mapStyles = {
   height: "100%",
 };
 
-export class MapContainer extends React.Component {
+function DetailPage() {
+  return (
+    <div>
+      <h1>Detail</h1>
+    </div>
+  )
+}
+
+function HomePage(props) {
+  return (
+    <Map
+      google={props.google}
+      zoom={14}
+      style={mapStyles}
+      initialCenter={{
+        lat: 10.7469,
+        lng: 106.6763,
+      }}
+    />
+  );
+}
+
+const MapContainer = GoogleApiWrapper({
+  apiKey,
+})(HomePage);
+
+export class App extends React.Component {
   render() {
     return (
-      <Map
-        google={this.props.google}
-        zoom={14}
-        style={mapStyles}
-        initialCenter={{
-          lat: 10.7469,
-          lng: 106.6763,
-        }}
-      />
+      <div>
+        <Switch>
+          <Route path="/" exact component={MapContainer} />
+          <Route path="/movie/:id" exact component={DetailPage} />
+        </Switch>
+      </div>
     );
   }
 }
 
-export default GoogleApiWrapper({
-  apiKey,
-})(MapContainer);
+export default App;
