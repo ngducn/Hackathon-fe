@@ -1,4 +1,4 @@
-import React from 'react'
+import React from "react";
 import { BrowserRouter as Switch, Route } from "react-router-dom";
 
 import { Map, GoogleApiWrapper } from "google-maps-react";
@@ -15,7 +15,7 @@ function DetailPage() {
     <div>
       <h1>Detail</h1>
     </div>
-  )
+  );
 }
 
 function HomePage(props) {
@@ -36,17 +36,15 @@ const MapContainer = GoogleApiWrapper({
   apiKey,
 })(HomePage);
 
-export class App extends React.Component {
-  render() {
-    return (
-      <div>
-        <Switch>
-          <Route path="/" exact component={MapContainer} />
-          <Route path="/movie/:id" exact component={DetailPage} />
-        </Switch>
-      </div>
-    );
-  }
+function App() {
+  return (
+    <div>
+      <Switch>
+        <Route path="/" exact component={MapContainer} />
+        <Route path="/movie/:id" exact component={DetailPage} />
+      </Switch>
+    </div>
+  );
 }
 
 export default App;
