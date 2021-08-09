@@ -1,8 +1,6 @@
 import React from 'react'
 import { Map, GoogleApiWrapper } from "google-maps-react";
 
-import Navbar from '../../components/Navbar'
-
 const apiKey = process.env.REACT_APP_GOOGLE_MAPS_API_KEY;
 
 const mapStyles = {
@@ -13,7 +11,6 @@ const mapStyles = {
 function HomePage(props) {
   return (
     <div>
-      <Navbar />
       <Map
         google={props.google}
         zoom={14}
