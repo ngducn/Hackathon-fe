@@ -152,22 +152,22 @@ const spots = [
 
 export class MapContainer extends Component {
   state = {
-    showingInfoWindow: false, // Hides or shows the InfoWindow
-    activeMarker: {}, // Shows the active marker upon click
-    selectedPlace: {}, // Shows the InfoWindow to the selected place upon a marker
+    infoWindow: false,
+    activeMarker: {},
+    selectedPlace: {},
   };
 
   onMarkerClick = (props, marker, e) =>
     this.setState({
       selectedPlace: props,
       activeMarker: marker,
-      showingInfoWindow: true,
+      infoWindow: true,
     });
 
   onClose = (props) => {
-    if (this.state.showingInfoWindow) {
+    if (this.state.infoWindow) {
       this.setState({
-        showingInfoWindow: false,
+        infoWindow: false,
         activeMarker: null,
       });
     }
@@ -187,8 +187,8 @@ export class MapContainer extends Component {
         {spots.map((s) => {
           return (
             <Marker
-              onClick={this.onMarkerClick}
               name={s.type}
+              onClick={this.onMarkerClick}
               position={{ lat: s.lat, lng: s.lng }}
             />
           );
@@ -196,9 +196,9 @@ export class MapContainer extends Component {
         <InfoWindow
           onClose={this.onClose}
           marker={this.state.activeMarker}
-          visible={this.state.showingInfoWindow}
+          visible={this.state.infoWindow}
         >
-          <div>
+          <div style={{ height: 300, width: 300, backgroundColor: 'red'}}>
             <h4>{this.state.selectedPlace.name}</h4>
           </div>
         </InfoWindow>
