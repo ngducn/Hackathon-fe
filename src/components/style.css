@@ -1,24 +1,24 @@
-.icon {
-  width: 100px;
-  height: 100px;
+.info-panel {
+  width: 450px;
+  height: 450px;
   position: relative;
   transition: transform ease-in-out 150ms;
 }
 
-.streamer:hover .icon {
+.streamer:hover .info-panel {
   transform: translateY(-20%);
 }
 
-.streamer:hover .icon::before {
+.streamer:hover .info-panel::before {
   opacity: 1;
 }
 
-.streamer .icon:hover {
+.streamer .info-panel:hover {
   transform: translateY(-20%) scale(1.1);
 }
 
-.icon::before,
-.icon::after {
+.info-panel::before,
+.info-panel::after {
   opacity: 0;
   content: "";
   position: absolute;
@@ -29,7 +29,7 @@
   border-radius: 50%;
 }
 
-.icon::before {
+.info-panel::before {
   content: "\f04b";
   font-family: "Font Awesome 5 Free";
   font-weight: 900;
@@ -41,11 +41,11 @@
   transition: opacity 75ms linear, background-color 100ms linear;
 }
 
-.icon:hover::before {
+.info-panel:hover::before {
   background: #cc0202;
 }
 
-.icon:hover::after {
+.info-panel:hover::after {
   background: #f00;
   z-index: 1;
   animation: pulse 1250ms infinite;
@@ -53,12 +53,12 @@
 
 @keyframes pulse {
   0% {
-    transform: scale(0.95);
     opacity: 0.75;
+    transform: scale(0.0);
   }
   100% {
-    transform: scale(1.35);
     opacity: 0;
+    transform: scale(1.0);
   }
 }
 

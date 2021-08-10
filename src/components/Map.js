@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Map,
   Marker,
@@ -25,6 +25,8 @@ const mapStyles = {
 
 function MapContainer(props) {
   const [infoWindow, setInfoWindow] = useState(false);
+
+  const [currentLocation, setCurrentLocation] = useState({});
   const [activePetition, setActivePetition] = useState({});
   const [selectedPetition, setSelectedPetition] = useState([]);
   console.log({ selectedPetition });
@@ -35,15 +37,23 @@ function MapContainer(props) {
   };
 
   const onClose = () => {
+    // Close
     if (infoWindow) {
       setInfoWindow(false);
       setActivePetition(null);
     }
   };
 
+  useEffect( () => {
+    window.navigator.geolocation.getCurrentPosition((foo) => {
+      console.log('Gotcha', foo.coords);
+      setCurrentLocation({ lat: foo.coords.latitude, lng: foo.coords.longitude });
+    })
+  }, [])
+
   return (
     <Map
-      zoom={14}
+      zoom={15}
       style={mapStyles}
       google={props.google}
       initialCenter={{
@@ -51,6 +61,7 @@ function MapContainer(props) {
         lng: 106.71969978644816,
       }}
     >
+<<<<<<< HEAD
       {props.petitions?.map((s) => {
         if (s.endLoc) {
           return (
@@ -64,6 +75,29 @@ function MapContainer(props) {
             />
           );
         }
+=======
+      {currentLocation && (
+        <Marker
+          class="pulse"
+          name={"Here"}
+          requesterName={"You"}
+          onClick={onMarkerClick}
+          position={{ lat: currentLocation.lat, lng: currentLocation.lng }}
+        />
+      )}
+      {props.petitions.map((s) => {
+        const lat = s.endLoc?.lat || s.startLoc?.lat
+        const lng = s.endLoc?.lng || s.startLoc?.lng;
+        return (
+          <Marker
+            class="pulse"
+            name={s.type}
+            onClick={onMarkerClick}
+            position={{ lat, lng }}
+            requesterName={s.owner.firstName + " " + s.owner.lastName}
+          />
+        );
+>>>>>>> affe1c11ceb3006a86f2b3a4d5996c84459a1a8b
       })}
       <InfoWindow
         onClose={onClose}
@@ -71,9 +105,9 @@ function MapContainer(props) {
         marker={activePetition}
       >
         <Container
-          // For a red pulse
-          // className="icon"
           fluid
+          // For a red pulse
+          className="info-panel"
         >
           <h1 className="text-center">Assistance Request</h1>
           <hr></hr>
@@ -106,10 +140,10 @@ function MapContainer(props) {
         </Container>
       </InfoWindow>
       <Circle
-        radius={100}
+        radius={2000}
         strokeOpacity={0}
         strokeWeight={10}
-        fillOpacity={0.2}
+        fillOpacity={0.1}
         fillColor="#FF0000"
         strokeColor="transparent"
         onClick={() => console.log("click")}
