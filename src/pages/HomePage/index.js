@@ -39,7 +39,6 @@ function HomePage() {
     const resp = await fetch(url + "/petitions/" + petitionId + "/items");
     const json = await resp.json();
     const items = json.data.items;
-
     return items;
   };
   useEffect(() => {

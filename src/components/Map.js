@@ -36,6 +36,8 @@ function MapContainer(props) {
     setSelectedPetition(props);
     setInfoWindow(true);
   };
+
+  console.log({ selectedPetition });
   const onClose = () => {
     // Close
     if (infoWindow) {
@@ -131,7 +133,6 @@ function MapContainer(props) {
               <h4>Items: </h4>
               <div>
                 {selectedPetition.items?.map((item) => {
-                  console.log({ item });
                   return (
                     <div className="d-flex justify-content-between mb-3">
                       <div>
