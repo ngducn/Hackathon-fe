@@ -6,8 +6,13 @@ import {
   InfoWindow,
   GoogleApiWrapper,
 } from "google-maps-react";
-
-import { faAddressBook, faCalendarCheck } from "@fortawesome/free-solid-svg-icons";
+import icon from "./marker.png";
+import {
+  faAddressBook,
+  faCalendarCheck,
+  faCheckCircle,
+  faUtensils,
+} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Col, Row, Container } from "react-bootstrap";
 
@@ -26,13 +31,13 @@ function MapContainer(props) {
   const [currentLocation, setCurrentLocation] = useState({});
   const [activePetition, setActivePetition] = useState({});
   const [selectedPetition, setSelectedPetition] = useState([]);
-
   const onMarkerClick = (props, marker, e) => {
     setActivePetition(marker);
     setSelectedPetition(props);
     setInfoWindow(true);
   };
 
+  console.log({ selectedPetition });
   const onClose = () => {
     // Close
     if (infoWindow) {
@@ -40,14 +45,20 @@ function MapContainer(props) {
       setActivePetition(null);
     }
   };
-
-  useEffect( () => {
+  const capitalize = (s) =>
+    s.charAt(0).toUpperCase() + s.slice(1).toLowercase();
+  const handleItemCheck = () => {
+    console.log("Hello");
+  };
+  useEffect(() => {
     window.navigator.geolocation.getCurrentPosition((foo) => {
-      console.log('Gotcha', foo.coords);
-      setCurrentLocation({ lat: foo.coords.latitude, lng: foo.coords.longitude });
-    })
-  }, [])
-
+      console.log("Gotcha", foo.coords);
+      setCurrentLocation({
+        lat: foo.coords.latitude,
+        lng: foo.coords.longitude,
+      });
+    });
+  }, []);
   return (
     <Map
       zoom={15}
@@ -67,8 +78,8 @@ function MapContainer(props) {
           position={{ lat: currentLocation.lat, lng: currentLocation.lng }}
         />
       )}
-      {props.petitions.map((s) => {
-        const lat = s.endLoc?.lat || s.startLoc?.lat
+      {props.petitions?.map((s) => {
+        const lat = s.endLoc?.lat || s.startLoc?.lat;
         const lng = s.endLoc?.lng || s.startLoc?.lng;
         return (
           <Marker
@@ -77,6 +88,8 @@ function MapContainer(props) {
             onClick={onMarkerClick}
             position={{ lat, lng }}
             requesterName={s.owner.firstName + " " + s.owner.lastName}
+            items={s.items}
+            status={s.status}
           />
         );
       })}
@@ -114,7 +127,47 @@ function MapContainer(props) {
                     Type
                   </div>
                 </div>
-                <div>{selectedPetition.name}</div>
+                <div>{selectedPetition?.name}</div>
+              </div>
+              <br></br>
+              <h4>Items: </h4>
+              <div>
+                {selectedPetition.items?.map((item) => {
+                  return (
+                    <div className="d-flex justify-content-between mb-3">
+                      <div>
+                        <div>
+                          <FontAwesomeIcon
+                            icon={faUtensils}
+                            style={{ marginRight: 5 }}
+                          />
+                          {item.type.toUpperCase()}{" "}
+                        </div>
+                      </div>
+                      <div>
+                        {item.weight}kg
+                        {item.status == "complete" ? ( //add a checkmark if an item is complete
+                          <>
+                            {" "}
+                            <FontAwesomeIcon
+                              onClick={handleItemCheck}
+                              icon={faCheckCircle}
+                              style={{
+                                cursor: "pointer",
+                                fontSize: "20px",
+                              }}
+                            />{" "}
+                          </>
+                        ) : (
+                          ""
+                        )}
+                      </div>
+                    </div>
+                  );
+                })}
+                <div className="d-flex justify-content-between mb-3">
+                  <div>Status: {selectedPetition.status?.toUpperCase()}</div>
+                </div>
               </div>
             </Col>
           </Row>

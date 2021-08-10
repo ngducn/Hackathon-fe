@@ -1,9 +1,16 @@
 import React, { useState, useEffect } from "react";
-import { ListGroup, Form, Col, Row, ButtonGroup, Button } from "react-bootstrap";
+import {
+  ListGroup,
+  Form,
+  Col,
+  Row,
+  ButtonGroup,
+  Button,
+} from "react-bootstrap";
 
 import Map from "../../components/Map";
 
-const url = process.env.REACT_APP_BACKEND_API
+const url = process.env.REACT_APP_BACKEND_API;
 
 function shuffleArray(array) {
   for (var i = array.length - 1; i > 0; i--) {
@@ -12,7 +19,7 @@ function shuffleArray(array) {
     array[i] = array[j];
     array[j] = temp;
   }
-  return array
+  return array;
 }
 
 function ListCard({ petition, onSelectPetition }) {
@@ -24,32 +31,43 @@ function ListCard({ petition, onSelectPetition }) {
 }
 
 function HomePage() {
-  const [petitions, setPetitions] = useState([])
-  const [allPetitions, setAllPetitions] = useState([])
+  const [petitions, setPetitions] = useState([]);
+  const [allPetitions, setAllPetitions] = useState([]);
   const [selectedPetitionType, setSelectedPetitionType] = useState("receive");
   const [selectedPetition, setSelectedPetition] = useState("receive");
-
-
-  useEffect( () => {
+  const getItems = async (petitionId) => {
+    const resp = await fetch(url + "/petitions/" + petitionId + "/items");
+    const json = await resp.json();
+    const items = json.data.items;
+    return items;
+  };
+  useEffect(() => {
     const fetchPetitions = async () => {
-      const resp = await fetch(url + '/petitions')
-      const json = await resp.json()
-      setAllPetitions(json)
-      setPetitions(json)
-    }
-    fetchPetitions()
-  }, [])
+      const resp = await fetch(url + "/petitions");
+      const json = await resp.json();
+      let petitions = json.data.petitions;
+      petitions = await Promise.all(
+        petitions.map(async (petition) => {
+          const items = await getItems(petition._id);
+          return { ...petition, items: items };
+        })
+      );
+      setAllPetitions(petitions);
+      setPetitions(petitions);
+    };
+    fetchPetitions();
+  }, []);
 
-  const onSelectPetitionType = ({target: { value }}) => {
+  const onSelectPetitionType = ({ target: { value } }) => {
     setSelectedPetitionType(value);
-    const filteredPetitions = allPetitions.filter(p => p.type === value)
+    const filteredPetitions = allPetitions.filter((p) => p.type === value);
     setPetitions(filteredPetitions);
-  }
+  };
 
   const onSelectPetition = (hm) => {
     // setSelectedPetition()
-    console.log('Hi', hm);
-  }
+    console.log("Hi", hm);
+  };
 
   return (
     <Row>
