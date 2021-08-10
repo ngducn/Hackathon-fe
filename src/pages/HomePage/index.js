@@ -2,12 +2,14 @@ import React, { useState, useEffect } from "react";
 
 import Map from "../../components/Map";
 
+const url = process.env.REACT_APP_BACKEND_API
+
 function HomePage(props) {
   const [petitions, setPetitions] = useState([])
 
   useEffect( () => {
     const fetchPetitions = async () => {
-      const resp = await fetch('http://localhost:5000/api/petitions')
+      const resp = await fetch(url + '/petitions')
       const json = await resp.json()
       setPetitions(json)
     }
