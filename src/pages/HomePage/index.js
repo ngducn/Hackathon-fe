@@ -36,7 +36,7 @@ function HomePage() {
   const [selectedPetitionType, setSelectedPetitionType] = useState("receive");
   const [selectedPetition, setSelectedPetition] = useState("receive");
   const getItems = async (petitionId) => {
-    const resp = await fetch(url + "/petitions/" + petitionId);
+    const resp = await fetch(url + "/petitions/" + petitionId + "/items");
     const json = await resp.json();
     const items = json.data.items;
 

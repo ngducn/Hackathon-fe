@@ -10,6 +10,8 @@ import icon from "./marker.png";
 import {
   faAddressBook,
   faCalendarCheck,
+  faCheckCircle,
+  faUtensils,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Col, Row, Container } from "react-bootstrap";
@@ -41,7 +43,11 @@ function MapContainer(props) {
       setActivePetition(null);
     }
   };
-
+  const capitalize = (s) =>
+    s.charAt(0).toUpperCase() + s.slice(1).toLowercase();
+  const handleItemCheck = () => {
+    console.log("Hello");
+  };
   useEffect(() => {
     window.navigator.geolocation.getCurrentPosition((foo) => {
       console.log("Gotcha", foo.coords);
@@ -51,7 +57,6 @@ function MapContainer(props) {
       });
     });
   }, []);
-
   return (
     <Map
       zoom={15}
@@ -82,6 +87,7 @@ function MapContainer(props) {
             position={{ lat, lng }}
             requesterName={s.owner.firstName + " " + s.owner.lastName}
             items={s.items}
+            status={s.status}
           />
         );
       })}
@@ -121,24 +127,46 @@ function MapContainer(props) {
                 </div>
                 <div>{selectedPetition?.name}</div>
               </div>
-
+              <br></br>
+              <h4>Items: </h4>
               <div>
                 {selectedPetition.items?.map((item) => {
+                  console.log({ item });
                   return (
                     <div className="d-flex justify-content-between mb-3">
                       <div>
                         <div>
                           <FontAwesomeIcon
-                            icon={faCalendarCheck}
+                            icon={faUtensils}
                             style={{ marginRight: 5 }}
                           />
-                          {item.type}
+                          {item.type.toUpperCase()}{" "}
                         </div>
                       </div>
-                      <div>{item.weight} kg</div>
+                      <div>
+                        {item.weight}kg
+                        {item.status == "complete" ? ( //add a checkmark if an item is complete
+                          <>
+                            {" "}
+                            <FontAwesomeIcon
+                              onClick={handleItemCheck}
+                              icon={faCheckCircle}
+                              style={{
+                                cursor: "pointer",
+                                fontSize: "20px",
+                              }}
+                            />{" "}
+                          </>
+                        ) : (
+                          ""
+                        )}
+                      </div>
                     </div>
                   );
                 })}
+                <div className="d-flex justify-content-between mb-3">
+                  <div>Status: {selectedPetition.status?.toUpperCase()}</div>
+                </div>
               </div>
             </Col>
           </Row>
