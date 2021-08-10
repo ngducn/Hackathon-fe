@@ -1,9 +1,16 @@
 import React, { useState, useEffect } from "react";
-import { ListGroup, Form, Col, Row, ButtonGroup, Button } from "react-bootstrap";
+import {
+  Col,
+  Row,
+  Form,
+  Button,
+  ListGroup,
+  ButtonGroup,
+} from "react-bootstrap";
 
 import Map from "../../components/Map";
 
-const url = process.env.REACT_APP_BACKEND_API
+const url = process.env.REACT_APP_BACKEND_API;
 
 function shuffleArray(array) {
   for (var i = array.length - 1; i > 0; i--) {
@@ -12,7 +19,7 @@ function shuffleArray(array) {
     array[i] = array[j];
     array[j] = temp;
   }
-  return array
+  return array;
 }
 
 function ListCard({ petition, onSelectPetition }) {
@@ -24,8 +31,8 @@ function ListCard({ petition, onSelectPetition }) {
 }
 
 function HomePage() {
-  const [petitions, setPetitions] = useState([])
-  const [allPetitions, setAllPetitions] = useState([])
+  const [petitions, setPetitions] = useState([]);
+  const [allPetitions, setAllPetitions] = useState([]);
   const [selectedPetitionType, setSelectedPetitionType] = useState("receive");
   const [selectedPetition, setSelectedPetition] = useState("receive");
   const [metaData, setMetaData] = useState({
@@ -34,14 +41,27 @@ function HomePage() {
     providersWaiting: 0,
   })
 
+  const getItems = async (petitionId) => {
+    const resp = await fetch(url + "/petitions/" + petitionId + "/items");
+    const json = await resp.json();
+    const items = json.data.items;
+    return items;
+  };
 
-  useEffect( () => {
+  useEffect(() => {
     const fetchPetitions = async () => {
-      const resp = await fetch(url + '/petitions')
-      const json = await resp.json()
-      const { petitions: newPetitions } = json.data
-      setAllPetitions(newPetitions)
-      setPetitions(newPetitions)
+      const resp = await fetch(url + "/petitions");
+      const json = await resp.json();
+      let newPetitions = json.data.petitions;
+      // newPetitions = await Promise.all(
+      //   newPetitions.map(async (petition) => {
+      //     const items = await getItems(petition._id);
+      //     return { ...petition, items: items };
+      //   }),
+      // );
+
+      setAllPetitions(newPetitions);
+      setPetitions(newPetitions);
       setMetaData({
         requestedCount: newPetitions.filter((p) => p.type === "receive").length,
         completedCount: newPetitions.filter((p) => p.status === "complete")
@@ -49,20 +69,20 @@ function HomePage() {
         providersWaiting: newPetitions.filter((p) => p.type === "provide")
           .length,
       });
-    }
-    fetchPetitions()
-  }, [])
+    };
+    fetchPetitions();
+  }, []);
 
-  const onSelectPetitionType = ({target: { value }}) => {
+  const onSelectPetitionType = ({ target: { value } }) => {
     setSelectedPetitionType(value);
-    const filteredPetitions = allPetitions.filter(p => p.type === value)
+    const filteredPetitions = allPetitions.filter((p) => p.type === value);
     setPetitions(filteredPetitions);
-  }
+  };
 
   const onSelectPetition = (hm) => {
     // setSelectedPetition()
-    console.log('Hi', hm);
-  }
+    console.log("Hi", hm);
+  };
 
   return (
     <Row>
@@ -76,9 +96,9 @@ function HomePage() {
         </Form>
         <ButtonGroup aria-label="Basic example" className="m-3">
           <Button
-            onClick={onSelectPetitionType}
-            value={"receive"}
             variant="danger"
+            value={"receive"}
+            onClick={onSelectPetitionType}
           >
             Requests {metaData.requestedCount}
           </Button>
@@ -90,9 +110,9 @@ function HomePage() {
             Available {metaData.requestedCount}
           </Button>
           <Button
-            onClick={onSelectPetitionType}
-            value={"relived"}
             variant="success"
+            value={"relived"}
+            onClick={onSelectPetitionType}
           >
             Relived {metaData.completedCount}
           </Button>
