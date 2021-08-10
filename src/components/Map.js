@@ -40,7 +40,6 @@ function MapContainer(props) {
     }
   };
 
-
   useEffect( () => {
     window.navigator.geolocation.getCurrentPosition((foo) => {
       console.log('Gotcha', foo.coords);
