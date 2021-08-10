@@ -7,7 +7,10 @@ import {
   GoogleApiWrapper,
 } from "google-maps-react";
 
-import { faAddressBook, faCalendarCheck } from "@fortawesome/free-solid-svg-icons";
+import {
+  faAddressBook,
+  faCalendarCheck,
+} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Col, Row, Container } from "react-bootstrap";
 
@@ -24,7 +27,7 @@ function MapContainer(props) {
   const [infoWindow, setInfoWindow] = useState(false);
   const [activePetition, setActivePetition] = useState({});
   const [selectedPetition, setSelectedPetition] = useState([]);
-
+  console.log({ selectedPetition });
   const onMarkerClick = (props, marker, e) => {
     setActivePetition(marker);
     setSelectedPetition(props);
@@ -48,7 +51,7 @@ function MapContainer(props) {
         lng: 106.71969978644816,
       }}
     >
-      {props.petitions.map((s) => {
+      {props.petitions?.map((s) => {
         if (s.endLoc) {
           return (
             <Marker
@@ -57,6 +60,7 @@ function MapContainer(props) {
               onClick={onMarkerClick}
               position={{ lat: s.endLoc.lat, lng: s.endLoc.lng }}
               requesterName={s.owner.firstName + " " + s.owner.lastName}
+              items={s.items}
             />
           );
         }
