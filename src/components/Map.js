@@ -34,6 +34,7 @@ function MapContainer(props) {
   };
 
   const onClose = () => {
+    // Close
     if (infoWindow) {
       setInfoWindow(false);
       setActivePetition(null);
