@@ -1,11 +1,15 @@
 import React, { useState } from "react";
 import {
   Map,
-  Circle,
-  GoogleApiWrapper,
-  InfoWindow,
   Marker,
+  Circle,
+  InfoWindow,
+  GoogleApiWrapper,
 } from "google-maps-react";
+
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCoffee } from "@fortawesome/free-solid-svg-icons";
+
 
 import "./style.css";
 
@@ -16,42 +20,10 @@ const mapStyles = {
   height: "100%",
 };
 
-const petitions = [
-  {
-    type: "receive",
-    endLoc: {
-      lat: 10.797914587330832,
-      lng: 106.71326158912827,
-    },
-    items: [{ type: "rice", quantity: 1, kg: 1 }],
-  },
-  {
-    type: "receive",
-    endLoc: {
-      lat: 10.801024084611207,
-      lng: 106.69901655713389,
-    },
-  },
-  {
-    type: "receive",
-    endLoc: {
-      lat: 10.802791798164124,
-      lng: 106.71699088213137,
-    },
-  },
-  {
-    type: "receive",
-    endLoc: {
-      lat: 10.792185360807064,
-      lng: 106.70875174642686,
-    },
-  },
-];
-
 function MapContainer(props) {
   const [infoWindow, setInfoWindow] = useState(false);
   const [activePetition, setActivePetition] = useState({});
-  const [selectedPetition, setSelectedPetition] = useState(petitions[0]);
+  const [selectedPetition, setSelectedPetition] = useState([]);
 
   const onMarkerClick = (props, marker, e) => {
     setActivePetition(marker);
@@ -101,6 +73,11 @@ function MapContainer(props) {
         >
           <h1>{selectedPetition.requesterName}</h1>
           <h6>{selectedPetition.name}</h6>
+          <FontAwesomeIcon icon={faCoffee} />
+          <FontAwesomeIcon icon={faCoffee} />
+          <FontAwesomeIcon icon={faCoffee} />
+          <FontAwesomeIcon icon={faCoffee} />
+          <FontAwesomeIcon icon={faCoffee} />
         </div>
       </InfoWindow>
       <Circle
