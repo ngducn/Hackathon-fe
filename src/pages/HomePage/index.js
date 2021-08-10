@@ -28,14 +28,27 @@ function HomePage() {
   const [allPetitions, setAllPetitions] = useState([])
   const [selectedPetitionType, setSelectedPetitionType] = useState("receive");
   const [selectedPetition, setSelectedPetition] = useState("receive");
+  const [metaData, setMetaData] = useState({
+    requestedCount: 0,
+    completedCount: 0,
+    providersWaiting: 0,
+  })
 
 
   useEffect( () => {
     const fetchPetitions = async () => {
       const resp = await fetch(url + '/petitions')
       const json = await resp.json()
-      setAllPetitions(json)
-      setPetitions(json)
+      const { petitions: newPetitions } = json.data
+      setAllPetitions(newPetitions)
+      setPetitions(newPetitions)
+      setMetaData({
+        requestedCount: newPetitions.filter((p) => p.type === "receive").length,
+        completedCount: newPetitions.filter((p) => p.status === "complete")
+          .length,
+        providersWaiting: newPetitions.filter((p) => p.type === "provide")
+          .length,
+      });
     }
     fetchPetitions()
   }, [])
@@ -67,21 +80,21 @@ function HomePage() {
             value={"receive"}
             variant="danger"
           >
-            Requests
+            Requests {metaData.requestedCount}
           </Button>
           <Button
-            onClick={onSelectPetitionType}
-            value={"provide"}
             variant="info"
+            value={"provide"}
+            onClick={onSelectPetitionType}
           >
-            Available
+            Available {metaData.requestedCount}
           </Button>
           <Button
             onClick={onSelectPetitionType}
             value={"relived"}
             variant="success"
           >
-            Relived
+            Relived {metaData.completedCount}
           </Button>
         </ButtonGroup>
         <ListGroup style={{ maxHeight: "100vh" }}>
