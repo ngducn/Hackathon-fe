@@ -1,5 +1,13 @@
 import React, { useState } from "react";
-import { Map, GoogleApiWrapper, InfoWindow, Marker } from "google-maps-react";
+import {
+  Map,
+  Circle,
+  GoogleApiWrapper,
+  InfoWindow,
+  Marker,
+} from "google-maps-react";
+
+import "./style.css";
 
 const apiKey = process.env.REACT_APP_GOOGLE_MAPS_API_KEY;
 
@@ -35,7 +43,7 @@ const petitions = [
 function MapContainer(props) {
   const [infoWindow, setInfoWindow] = useState(false);
   const [activePetition, setActivePetition] = useState({});
-  const [selectedPetition, setSelectedPetition] = useState({});
+  const [selectedPetition, setSelectedPetition] = useState(petitions[0]);
 
   const onMarkerClick = (props, marker, e) => {
     setActivePetition(marker);
@@ -66,6 +74,7 @@ function MapContainer(props) {
             name={s.type}
             onClick={onMarkerClick}
             position={{ lat: s.lat, lng: s.lng }}
+            class="pulse"
           />
         );
       })}
@@ -73,11 +82,27 @@ function MapContainer(props) {
         onClose={onClose}
         visible={infoWindow}
         marker={activePetition}
+        className="icon"
       >
-        <div style={{ height: 300, width: 300, backgroundColor: "red" }}>
+        <div
+          style={{ height: 300, width: 300, borderRadius: "50%" }}
+          className="icon"
+        >
           <h4>{selectedPetition.name}</h4>
         </div>
       </InfoWindow>
+      <Circle
+        radius={100}
+        center={{ lat: 10.796143556994366, lng: 106.71969978644816 }}
+        onMouseover={() => console.log("mouseover")}
+        onClick={() => console.log("click")}
+        onMouseout={() => console.log("mouseout")}
+        strokeColor="transparent"
+        strokeOpacity={0}
+        strokeWeight={10}
+        fillColor="#FF0000"
+        fillOpacity={0.2}
+      />
     </Map>
   );
 }
