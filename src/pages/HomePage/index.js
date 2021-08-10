@@ -35,16 +35,41 @@ function HomePage() {
   const [allPetitions, setAllPetitions] = useState([]);
   const [selectedPetitionType, setSelectedPetitionType] = useState("receive");
   const [selectedPetition, setSelectedPetition] = useState("receive");
+  const getItems = async (petitionId) => {
+    const resp = await fetch(url + "/petitions/" + petitionId);
+    const json = await resp.json();
+    const items = json.data.items;
 
+    return items;
+  };
   useEffect(() => {
     const fetchPetitions = async () => {
       const resp = await fetch(url + "/petitions");
       const json = await resp.json();
-      setPetitions(json.data.petitions);
-      setAllPetitions(json.data.petitions);
+      let petitions = json.data.petitions;
+      petitions = await Promise.all(
+        petitions.map(async (petition) => {
+          const items = await getItems(petition._id);
+          return { ...petition, items: items };
+        })
+      );
+      setAllPetitions(petitions);
+      setPetitions(petitions);
     };
     fetchPetitions();
   }, []);
+
+  const onSelectPetitionType = ({ target: { value } }) => {
+    setSelectedPetitionType(value);
+    const filteredPetitions = allPetitions.filter((p) => p.type === value);
+    setPetitions(filteredPetitions);
+  };
+
+  const onSelectPetition = (hm) => {
+    // setSelectedPetition()
+    console.log("Hi", hm);
+  };
+
   return (
     <Row>
       <Col

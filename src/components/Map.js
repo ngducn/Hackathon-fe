@@ -6,7 +6,7 @@ import {
   InfoWindow,
   GoogleApiWrapper,
 } from "google-maps-react";
-
+import icon from "./marker.png";
 import {
   faAddressBook,
   faCalendarCheck,
@@ -29,13 +29,11 @@ function MapContainer(props) {
   const [currentLocation, setCurrentLocation] = useState({});
   const [activePetition, setActivePetition] = useState({});
   const [selectedPetition, setSelectedPetition] = useState([]);
-  console.log({ selectedPetition });
   const onMarkerClick = (props, marker, e) => {
     setActivePetition(marker);
     setSelectedPetition(props);
     setInfoWindow(true);
   };
-
   const onClose = () => {
     // Close
     if (infoWindow) {
@@ -44,12 +42,15 @@ function MapContainer(props) {
     }
   };
 
-  useEffect( () => {
+  useEffect(() => {
     window.navigator.geolocation.getCurrentPosition((foo) => {
-      console.log('Gotcha', foo.coords);
-      setCurrentLocation({ lat: foo.coords.latitude, lng: foo.coords.longitude });
-    })
-  }, [])
+      console.log("Gotcha", foo.coords);
+      setCurrentLocation({
+        lat: foo.coords.latitude,
+        lng: foo.coords.longitude,
+      });
+    });
+  }, []);
 
   return (
     <Map
@@ -61,21 +62,6 @@ function MapContainer(props) {
         lng: 106.71969978644816,
       }}
     >
-<<<<<<< HEAD
-      {props.petitions?.map((s) => {
-        if (s.endLoc) {
-          return (
-            <Marker
-              class="pulse"
-              name={s.type}
-              onClick={onMarkerClick}
-              position={{ lat: s.endLoc.lat, lng: s.endLoc.lng }}
-              requesterName={s.owner.firstName + " " + s.owner.lastName}
-              items={s.items}
-            />
-          );
-        }
-=======
       {currentLocation && (
         <Marker
           class="pulse"
@@ -85,8 +71,8 @@ function MapContainer(props) {
           position={{ lat: currentLocation.lat, lng: currentLocation.lng }}
         />
       )}
-      {props.petitions.map((s) => {
-        const lat = s.endLoc?.lat || s.startLoc?.lat
+      {props.petitions?.map((s) => {
+        const lat = s.endLoc?.lat || s.startLoc?.lat;
         const lng = s.endLoc?.lng || s.startLoc?.lng;
         return (
           <Marker
@@ -95,9 +81,9 @@ function MapContainer(props) {
             onClick={onMarkerClick}
             position={{ lat, lng }}
             requesterName={s.owner.firstName + " " + s.owner.lastName}
+            items={s.items}
           />
         );
->>>>>>> affe1c11ceb3006a86f2b3a4d5996c84459a1a8b
       })}
       <InfoWindow
         onClose={onClose}
@@ -133,7 +119,26 @@ function MapContainer(props) {
                     Type
                   </div>
                 </div>
-                <div>{selectedPetition.name}</div>
+                <div>{selectedPetition?.name}</div>
+              </div>
+
+              <div>
+                {selectedPetition.items?.map((item) => {
+                  return (
+                    <div className="d-flex justify-content-between mb-3">
+                      <div>
+                        <div>
+                          <FontAwesomeIcon
+                            icon={faCalendarCheck}
+                            style={{ marginRight: 5 }}
+                          />
+                          {item.type}
+                        </div>
+                      </div>
+                      <div>{item.weight} kg</div>
+                    </div>
+                  );
+                })}
               </div>
             </Col>
           </Row>
