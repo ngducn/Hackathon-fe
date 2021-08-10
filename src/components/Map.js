@@ -7,9 +7,9 @@ import {
   GoogleApiWrapper,
 } from "google-maps-react";
 
+import { faAddressBook, faCalendarCheck } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCoffee } from "@fortawesome/free-solid-svg-icons";
-
+import { Col, Row, Container } from "react-bootstrap";
 
 import "./style.css";
 
@@ -55,8 +55,8 @@ function MapContainer(props) {
               class="pulse"
               name={s.type}
               onClick={onMarkerClick}
-              requesterName={s.owner.firstName}
               position={{ lat: s.endLoc.lat, lng: s.endLoc.lng }}
+              requesterName={s.owner.firstName + " " + s.owner.lastName}
             />
           );
         }
@@ -65,20 +65,41 @@ function MapContainer(props) {
         onClose={onClose}
         visible={infoWindow}
         marker={activePetition}
-        className="icon"
       >
-        <div
-          className="icon"
-          style={{ height: 300, width: 300, borderRadius: "50%" }}
+        <Container
+          // For a red pulse
+          // className="icon"
+          fluid
         >
-          <h1>{selectedPetition.requesterName}</h1>
-          <h6>{selectedPetition.name}</h6>
-          <FontAwesomeIcon icon={faCoffee} />
-          <FontAwesomeIcon icon={faCoffee} />
-          <FontAwesomeIcon icon={faCoffee} />
-          <FontAwesomeIcon icon={faCoffee} />
-          <FontAwesomeIcon icon={faCoffee} />
-        </div>
+          <h1 className="text-center">Assistance Request</h1>
+          <hr></hr>
+          <Row>
+            <Col>
+              <div className="d-flex justify-content-between mb-3">
+                <div>
+                  <FontAwesomeIcon
+                    icon={faAddressBook}
+                    style={{ marginRight: 5 }}
+                  />
+                  Name
+                </div>
+                <div>{selectedPetition.requesterName}</div>
+              </div>
+              <div className="d-flex justify-content-between mb-3">
+                <div>
+                  <div>
+                    <FontAwesomeIcon
+                      icon={faCalendarCheck}
+                      style={{ marginRight: 5 }}
+                    />
+                    Type
+                  </div>
+                </div>
+                <div>{selectedPetition.name}</div>
+              </div>
+            </Col>
+          </Row>
+        </Container>
       </InfoWindow>
       <Circle
         radius={100}

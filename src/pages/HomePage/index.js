@@ -4,7 +4,7 @@ import Map from "../../components/Map";
 
 const url = process.env.REACT_APP_BACKEND_API
 
-function HomePage(props) {
+function HomePage() {
   const [petitions, setPetitions] = useState([])
 
   useEffect( () => {
