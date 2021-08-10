@@ -1,50 +1,18 @@
 import React from "react";
 import { BrowserRouter as Switch, Route } from "react-router-dom";
 
-import { Map, GoogleApiWrapper } from "google-maps-react";
+import HomePage from './pages/HomePage/HomePage'
+import AboutPage from './pages/AboutPage/AboutPage'
 
-const apiKey = process.env.REACT_APP_GOOGLE_MAPS_API_KEY;
-
-const mapStyles = {
-  width: "100%",
-  height: "100%",
-};
-
-function DetailPage() {
-  return (
-    <div>
-      <h1>Detail</h1>
-    </div>
-  );
-}
-
-function HomePage(props) {
-  return (
-    <div>
-      <h1>Home Page</h1>
-      <Map
-        google={props.google}
-        zoom={14}
-        style={mapStyles}
-        initialCenter={{
-          lat: 10.7469,
-          lng: 106.6763,
-        }}
-      />
-    </div>
-  );
-}
-
-const MapContainer = GoogleApiWrapper({
-  apiKey,
-})(HomePage);
+import Navbar from "./components/Navbar";
 
 function App() {
   return (
     <div>
+      <Navbar />
       <Switch>
-        <Route path="/" exact component={MapContainer} />
-        <Route path="/movie/:id" exact component={DetailPage} />
+        <Route path="/" exact component={HomePage} />
+        <Route path="/about" exact component={AboutPage} />
       </Switch>
     </div>
   );
