@@ -19,24 +19,32 @@ const mapStyles = {
 const petitions = [
   {
     type: "receive",
-    lat: 10.797914587330832,
-    lng: 106.71326158912827,
+    endLoc: {
+      lat: 10.797914587330832,
+      lng: 106.71326158912827,
+    },
     items: [{ type: "rice", quantity: 1, kg: 1 }],
   },
   {
     type: "receive",
-    lat: 10.801024084611207,
-    lng: 106.69901655713389,
+    endLoc: {
+      lat: 10.801024084611207,
+      lng: 106.69901655713389,
+    },
   },
   {
     type: "receive",
-    lat: 10.802791798164124,
-    lng: 106.71699088213137,
+    endLoc: {
+      lat: 10.802791798164124,
+      lng: 106.71699088213137,
+    },
   },
   {
     type: "receive",
-    lat: 10.792185360807064,
-    lng: 106.70875174642686,
+    endLoc: {
+      lat: 10.792185360807064,
+      lng: 106.70875174642686,
+    },
   },
 ];
 
@@ -60,7 +68,7 @@ function MapContainer(props) {
 
   return (
     <Map
-      zoom={16}
+      zoom={14}
       style={mapStyles}
       google={props.google}
       initialCenter={{
@@ -68,15 +76,18 @@ function MapContainer(props) {
         lng: 106.71969978644816,
       }}
     >
-      {petitions.map((s) => {
-        return (
-          <Marker
-            name={s.type}
-            onClick={onMarkerClick}
-            position={{ lat: s.lat, lng: s.lng }}
-            class="pulse"
-          />
-        );
+      {props.petitions.map((s) => {
+        if (s.endLoc) {
+          return (
+            <Marker
+              class="pulse"
+              name={s.type}
+              onClick={onMarkerClick}
+              requesterName={s.owner.firstName}
+              position={{ lat: s.endLoc.lat, lng: s.endLoc.lng }}
+            />
+          );
+        }
       })}
       <InfoWindow
         onClose={onClose}
@@ -85,23 +96,24 @@ function MapContainer(props) {
         className="icon"
       >
         <div
-          style={{ height: 300, width: 300, borderRadius: "50%" }}
           className="icon"
+          style={{ height: 300, width: 300, borderRadius: "50%" }}
         >
-          <h4>{selectedPetition.name}</h4>
+          <h1>{selectedPetition.requesterName}</h1>
+          <h6>{selectedPetition.name}</h6>
         </div>
       </InfoWindow>
       <Circle
         radius={100}
-        center={{ lat: 10.796143556994366, lng: 106.71969978644816 }}
-        onMouseover={() => console.log("mouseover")}
-        onClick={() => console.log("click")}
-        onMouseout={() => console.log("mouseout")}
-        strokeColor="transparent"
         strokeOpacity={0}
         strokeWeight={10}
-        fillColor="#FF0000"
         fillOpacity={0.2}
+        fillColor="#FF0000"
+        strokeColor="transparent"
+        onClick={() => console.log("click")}
+        onMouseout={() => console.log("mouseout")}
+        onMouseover={() => console.log("mouseover")}
+        center={{ lat: 10.796143556994366, lng: 106.71969978644816 }}
       />
     </Map>
   );
