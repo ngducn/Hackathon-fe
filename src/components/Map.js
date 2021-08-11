@@ -6,7 +6,7 @@ import {
   InfoWindow,
   GoogleApiWrapper,
 } from "google-maps-react";
-import icon from "./marker.png";
+// import icon from "./marker.png";
 import {
   faAddressBook,
   faCalendarCheck,
@@ -32,22 +32,17 @@ function MapContainer(props) {
   const [selectedPetition, setSelectedPetition] = useState([]);
 
   const onMarkerClick = (props, marker, e) => {
-    console.log({ props });
     setActivePetition(marker);
     setSelectedPetition(props);
     setInfoWindow(true);
   };
 
-  console.log({ selectedPetition });
   const onClose = () => {
     if (infoWindow) {
       setInfoWindow(false);
       setActivePetition(null);
     }
   };
-
-  const capitalize = (s) =>
-    s.charAt(0).toUpperCase() + s.slice(1).toLowercase();
 
   const handleItemCheck = () => {
     console.log("Hello");
