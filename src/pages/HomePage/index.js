@@ -38,7 +38,7 @@ function ListCard({ petition, onSelectPetition }) {
   return (
     <ListGroup.Item onClick={() => onSelectPetition(petition)} className="d-flex">
       <div className="m-1">
-        <img src={petition.owner.imageUrl} height={100} width={100} />
+        <img src={petition.owner.imageUrl} height={100} width={100} alt={petition.owner.firstName}/>
       </div>
       <div className="m-1">
         <h6>{petition.owner.firstName + " " + petition.owner.lastName}</h6>
