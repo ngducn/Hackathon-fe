@@ -7,6 +7,7 @@ import {
   ListGroup,
   ButtonGroup,
 } from "react-bootstrap";
+import moment from 'moment'
 
 import Map from "../../components/Map";
 
@@ -22,10 +23,29 @@ function shuffleArray(array) {
   return array;
 }
 
+function SelectedPetitionInfoPanelSidebar(props) {
+  if (props.petition) {
+    console.log(props.petition);
+  }
+    return (
+      <div>
+        <h1>Selected Petition</h1>
+      </div>
+    );
+}
+
 function ListCard({ petition, onSelectPetition }) {
   return (
-    <ListGroup.Item onClick={() => onSelectPetition(petition)}>
-      {petition.owner.firstName + " " + petition.owner.lastName}
+    <ListGroup.Item onClick={() => onSelectPetition(petition)} className="d-flex">
+      <div className="m-1">
+        <img src={petition.owner.imageUrl} height={100} width={100} alt={petition.owner.firstName}/>
+      </div>
+      <div className="m-1">
+        <h6>{petition.owner.firstName + " " + petition.owner.lastName}</h6>
+        <div>{petition.type}</div>
+        <div>{petition.status}</div>
+        <div>{moment(petition.createdAt).fromNow()}</div>
+      </div>
     </ListGroup.Item>
   );
 }
@@ -34,31 +54,20 @@ function HomePage() {
   const [petitions, setPetitions] = useState([]);
   const [allPetitions, setAllPetitions] = useState([]);
   const [selectedPetitionType, setSelectedPetitionType] = useState("receive");
-  const [selectedPetition, setSelectedPetition] = useState("receive");
+  const [selectedPetition, setSelectedPetition] = useState(null);
   const [metaData, setMetaData] = useState({
     requestedCount: 0,
     completedCount: 0,
     providersWaiting: 0,
+    mCount: 0,
+    fCount: 0,
   })
-
-  // const getItems = async (petitionId) => {
-  //   const resp = await fetch(url + "/petitions/" + petitionId + "/items");
-  //   const json = await resp.json();
-  //   const items = json.data.items;
-  //   return items;
-  // };
 
   useEffect(() => {
     const fetchPetitions = async () => {
       const resp = await fetch(url + "/petitions");
       const json = await resp.json();
       let newPetitions = json.data.petitions;
-      // newPetitions = await Promise.all(
-      //   newPetitions.map(async (petition) => {
-      //     const items = await getItems(petition._id);
-      //     return { ...petition, items: items };
-      //   }),
-      // );
 
       setAllPetitions(newPetitions);
       setPetitions(newPetitions);
@@ -68,6 +77,8 @@ function HomePage() {
           .length,
         providersWaiting: newPetitions.filter((p) => p.type === "provide")
           .length,
+        mCount: newPetitions.filter((p) => p.owner.gender === "m").length,
+        fCount: newPetitions.filter((p) => p.owner.gender === "f").length,
       });
     };
     fetchPetitions();
@@ -80,9 +91,17 @@ function HomePage() {
   };
 
   const onSelectPetition = (hm) => {
-    // setSelectedPetition()
-    console.log("Hi", hm);
+    const selected = allPetitions.filter((p) => p._id === hm._id);
+    setPetitions(selected);
+    setSelectedPetition(selected[0]);
   };
+
+
+  const onFilterByGender = (hm) => {
+    console.log({ go: hm.value });
+        const selected = allPetitions.filter((p) => p.owner.gender === hm.target.value);
+        setPetitions(selected);
+  }
 
   return (
     <Row>
@@ -95,6 +114,7 @@ function HomePage() {
           <Form.Control type="query" placeholder="Facemasks..." />
         </Form>
         <h3>{selectedPetitionType}</h3>
+        <SelectedPetitionInfoPanelSidebar petition={selectedPetition} />
         <ButtonGroup aria-label="Basic example" className="m-3">
           <Button
             variant="danger"
@@ -116,6 +136,14 @@ function HomePage() {
             onClick={onSelectPetitionType}
           >
             Relived {metaData.completedCount}
+          </Button>
+        </ButtonGroup>
+        <ButtonGroup aria-label="Basic example" className="m-3">
+          <Button variant="success" value={"m"} onClick={onFilterByGender}>
+            Men {metaData.mCount}
+          </Button>
+          <Button variant="success" value={"f"} onClick={onFilterByGender}>
+            Women {metaData.fCount}
           </Button>
         </ButtonGroup>
         <ListGroup style={{ maxHeight: "100vh" }}>

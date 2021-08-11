@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from "react";
+import { Col, Row, Container } from "react-bootstrap";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   Map,
   Marker,
@@ -6,15 +8,13 @@ import {
   InfoWindow,
   GoogleApiWrapper,
 } from "google-maps-react";
-// import icon from "./marker.png";
+
 import {
-  faAddressBook,
-  faCalendarCheck,
-  faCheckCircle,
   faUtensils,
+  faAddressBook,
+  faCheckCircle,
+  faCalendarCheck,
 } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Col, Row, Container } from "react-bootstrap";
 
 import "./style.css";
 
@@ -148,8 +148,8 @@ function MapContainer(props) {
                           <>
                             {" "}
                             <FontAwesomeIcon
-                              onClick={handleItemCheck}
                               icon={faCheckCircle}
+                              onClick={handleItemCheck}
                               style={{
                                 cursor: "pointer",
                                 fontSize: "20px",
