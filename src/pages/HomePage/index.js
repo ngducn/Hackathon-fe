@@ -102,8 +102,8 @@ function HomePage() {
 
 
   const onFilterByGender = (hm) => {
-    console.log({ go: hm.value });
-    const selected = allPetitions.filter((p) => p.owner.gender === hm.target.value);
+    let selected = allPetitions.filter((p) => p.owner.gender === hm.target.value);
+    selected = selected.filter((p) => p.type === selectedPetitionType);
     setPetitions(selected);
   }
 
@@ -152,8 +152,7 @@ function HomePage() {
             value={"provide"}
             onClick={onSelectPetitionType}
           >
-            {t("provided_items")} ({metaData.requestedCount})
-            {t("complete_requests")} ({metaData.requestedCount})
+            {t("provided_items")} ({metaData.providersWaiting})
           </Button>
           <Button
             variant="success"

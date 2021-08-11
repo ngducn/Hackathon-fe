@@ -181,7 +181,7 @@ function MapContainer(props) {
         onClick={() => console.log("click")}
         onMouseout={() => console.log("mouseout")}
         onMouseover={() => console.log("mouseover")}
-        center={{ lat: 10.796143556994366, lng: 106.71969978644816 }}
+        center={{ lat: currentLocation.lat, lng: currentLocation.lng }}
       />
     </Map>
   );
