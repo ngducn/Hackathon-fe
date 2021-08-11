@@ -1,5 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { Col, Row, Container } from "react-bootstrap";
+import {
+  Col,
+  Row,
+  Container,
+  Button,
+  ListGroup,
+  ButtonGroup,
+} from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   Map,
@@ -88,6 +95,7 @@ function MapContainer(props) {
             status={s.status}
             onClick={onMarkerClick}
             position={{ lat, lng }}
+            owner={s.owner}
             requesterName={s.owner.firstName + " " + s.owner.lastName}
           />
         );
@@ -106,27 +114,37 @@ function MapContainer(props) {
           <hr></hr>
           <Row>
             <Col>
-              <div className="d-flex justify-content-between mb-3">
-                <div>
-                  <FontAwesomeIcon
-                    icon={faAddressBook}
-                    style={{ marginRight: 5 }}
-                  />
-                  Name
-                </div>
-                <div>{selectedPetition.requesterName}</div>
-              </div>
-              <div className="d-flex justify-content-between mb-3">
-                <div>
-                  <div>
-                    <FontAwesomeIcon
-                      icon={faCalendarCheck}
-                      style={{ marginRight: 5 }}
-                    />
-                    Type
+              <div className="d-flex p-3">
+                <img
+                  width={100}
+                  height={100}
+                  src={selectedPetition?.owner?.imageUrl}
+                  alt={selectedPetition?.owner?.firstName}
+                />
+                <div className="d-flex flex-column p-3 w-100">
+                  <div className="d-flex justify-content-between w-100 mb-3">
+                    <div className="">
+                      <FontAwesomeIcon
+                        icon={faAddressBook}
+                        style={{ marginRight: 5 }}
+                      />{" "}
+                      Name{" "}
+                    </div>
+                    <div className="pl-1">{selectedPetition.requesterName}</div>
+                  </div>
+                  <div className="d-flex justify-content-between mb-3">
+                    <div>
+                      <div>
+                        <FontAwesomeIcon
+                          icon={faCalendarCheck}
+                          style={{ marginRight: 5 }}
+                        />
+                        Type
+                      </div>
+                    </div>
+                    <div>{selectedPetition?.name}</div>
                   </div>
                 </div>
-                <div>{selectedPetition?.name}</div>
               </div>
               <br></br>
               <h4>Items: </h4>
@@ -166,6 +184,17 @@ function MapContainer(props) {
                 })}
                 <div className="d-flex justify-content-between mb-3">
                   <div>Status: {selectedPetition?.status?.toUpperCase()}</div>
+                </div>
+                <div>
+                  <ButtonGroup aria-label="Basic example" className="m-3">
+                    {selectedPetition?.items?.map((i) => {
+                      return (
+                        <Button variant="success" value={"m"}>
+                          Provide {i.name}
+                        </Button>
+                      );
+                    })}
+                  </ButtonGroup>
                 </div>
               </div>
             </Col>
