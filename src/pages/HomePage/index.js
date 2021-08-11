@@ -127,7 +127,9 @@ function HomePage() {
         <Form className="m-3">
           <Form.Control type="query" placeholder="Facemasks..." />
         </Form>
-        <h3>{t("welcome")}</h3>
+        <h3>
+          {t("welcome")} in {language}
+        </h3>
         {languages.map((l) => {
           return (
             <button onClick={handleChangeLanguage} value={l}>
@@ -166,7 +168,7 @@ function HomePage() {
             {t("men")} ({metaData.mCount})
           </Button>
           <Button variant="success" value={"f"} onClick={onFilterByGender}>
-            {t("women")} ({metaData.fCount})
+            {t("female")} ({metaData.fCount})
           </Button>
         </ButtonGroup>
         <ListGroup style={{ maxHeight: "100vh" }}>
