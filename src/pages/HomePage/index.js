@@ -166,7 +166,7 @@ function HomePage() {
             {t("men")} ({metaData.mCount})
           </Button>
           <Button variant="success" value={"f"} onClick={onFilterByGender}>
-            {t("women")} ({metaData.fCount})
+            {t("female")} ({metaData.fCount})
           </Button>
         </ButtonGroup>
         <ListGroup style={{ maxHeight: "100vh" }}>
