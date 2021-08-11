@@ -8,6 +8,9 @@ import {
   ButtonGroup,
 } from "react-bootstrap";
 import moment from 'moment'
+import i18n from "i18next";
+import { useTranslation } from "react-i18next";
+import "../../translations/i18n";
 
 import Map from "../../components/Map";
 
@@ -53,8 +56,9 @@ function ListCard({ petition, onSelectPetition }) {
 function HomePage() {
   const [petitions, setPetitions] = useState([]);
   const [allPetitions, setAllPetitions] = useState([]);
-  const [selectedPetitionType, setSelectedPetitionType] = useState("receive");
   const [selectedPetition, setSelectedPetition] = useState(null);
+  const [selectedPetitionType, setSelectedPetitionType] = useState("receive");
+  const { t } = useTranslation();
   const [metaData, setMetaData] = useState({
     requestedCount: 0,
     completedCount: 0,
@@ -99,9 +103,19 @@ function HomePage() {
 
   const onFilterByGender = (hm) => {
     console.log({ go: hm.value });
-        const selected = allPetitions.filter((p) => p.owner.gender === hm.target.value);
-        setPetitions(selected);
+    const selected = allPetitions.filter((p) => p.owner.gender === hm.target.value);
+    setPetitions(selected);
   }
+
+  const [language, setLanguage] = useState("en");
+
+  const handleChangeLanguage = (e) => {
+    e.preventDefault();
+    setLanguage(e.target.value);
+    i18n.changeLanguage(e.target.value);
+  };
+
+  const languages = ['zh', 'vi', 'en']
 
   return (
     <Row>
@@ -113,37 +127,46 @@ function HomePage() {
         <Form className="m-3">
           <Form.Control type="query" placeholder="Facemasks..." />
         </Form>
+        <h3>{t("welcome")}</h3>
+        {languages.map((l) => {
+          return (
+            <button onClick={handleChangeLanguage} value={l}>
+              {l}
+            </button>
+          );
+        })}
         <h3>{selectedPetitionType}</h3>
         <SelectedPetitionInfoPanelSidebar petition={selectedPetition} />
-        <ButtonGroup aria-label="Basic example" className="m-3">
+        <ButtonGroup aria-label="Basic example" className="m-3" vertical>
           <Button
             variant="danger"
             value={"receive"}
             onClick={onSelectPetitionType}
           >
-            Requests {metaData.requestedCount}
+            {t("requests")} ({metaData.requestedCount})
           </Button>
           <Button
             variant="info"
             value={"provide"}
             onClick={onSelectPetitionType}
           >
-            Available {metaData.requestedCount}
+            {t("provided_items")} ({metaData.requestedCount})
+            {t("complete_requests")} ({metaData.requestedCount})
           </Button>
           <Button
             variant="success"
             value={"relived"}
             onClick={onSelectPetitionType}
           >
-            Relived {metaData.completedCount}
+            {t("complete_requests")} ({metaData.completedCount})
           </Button>
         </ButtonGroup>
         <ButtonGroup aria-label="Basic example" className="m-3">
           <Button variant="success" value={"m"} onClick={onFilterByGender}>
-            Men {metaData.mCount}
+            {t("men")} ({metaData.mCount})
           </Button>
           <Button variant="success" value={"f"} onClick={onFilterByGender}>
-            Women {metaData.fCount}
+            {t("women")} ({metaData.fCount})
           </Button>
         </ButtonGroup>
         <ListGroup style={{ maxHeight: "100vh" }}>
