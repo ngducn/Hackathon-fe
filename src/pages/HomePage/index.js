@@ -127,7 +127,9 @@ function HomePage() {
         <Form className="m-3">
           <Form.Control type="query" placeholder="Facemasks..." />
         </Form>
-        <h3>{t("welcome")}</h3>
+        <h3>
+          {t("welcome")} in {language}
+        </h3>
         {languages.map((l) => {
           return (
             <button onClick={handleChangeLanguage} value={l}>

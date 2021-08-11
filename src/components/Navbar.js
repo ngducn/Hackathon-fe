@@ -1,7 +1,6 @@
 import React from 'react'
 import { Navbar, Container, Nav } from "react-bootstrap";
 
-import i18n from "i18next";
 import { useTranslation } from "react-i18next";
 import "../translations/i18n";
 
