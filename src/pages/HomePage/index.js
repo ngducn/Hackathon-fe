@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
 import {
-  ListGroup,
-  Form,
   Col,
   Row,
-  ButtonGroup,
+  Form,
   Button,
+  ListGroup,
+  ButtonGroup,
 } from "react-bootstrap";
 
 import Map from "../../components/Map";
@@ -35,25 +35,40 @@ function HomePage() {
   const [allPetitions, setAllPetitions] = useState([]);
   const [selectedPetitionType, setSelectedPetitionType] = useState("receive");
   const [selectedPetition, setSelectedPetition] = useState("receive");
+  const [metaData, setMetaData] = useState({
+    requestedCount: 0,
+    completedCount: 0,
+    providersWaiting: 0,
+  })
+
   const getItems = async (petitionId) => {
     const resp = await fetch(url + "/petitions/" + petitionId + "/items");
     const json = await resp.json();
     const items = json.data.items;
     return items;
   };
+
   useEffect(() => {
     const fetchPetitions = async () => {
       const resp = await fetch(url + "/petitions");
       const json = await resp.json();
-      let petitions = json.data.petitions;
-      petitions = await Promise.all(
-        petitions.map(async (petition) => {
-          const items = await getItems(petition._id);
-          return { ...petition, items: items };
-        })
-      );
-      setAllPetitions(petitions);
-      setPetitions(petitions);
+      let newPetitions = json.data.petitions;
+      // newPetitions = await Promise.all(
+      //   newPetitions.map(async (petition) => {
+      //     const items = await getItems(petition._id);
+      //     return { ...petition, items: items };
+      //   }),
+      // );
+
+      setAllPetitions(newPetitions);
+      setPetitions(newPetitions);
+      setMetaData({
+        requestedCount: newPetitions.filter((p) => p.type === "receive").length,
+        completedCount: newPetitions.filter((p) => p.status === "complete")
+          .length,
+        providersWaiting: newPetitions.filter((p) => p.type === "provide")
+          .length,
+      });
     };
     fetchPetitions();
   }, []);
@@ -81,25 +96,25 @@ function HomePage() {
         </Form>
         <ButtonGroup aria-label="Basic example" className="m-3">
           <Button
-            onClick={onSelectPetitionType}
-            value={"receive"}
             variant="danger"
+            value={"receive"}
+            onClick={onSelectPetitionType}
           >
-            Requests
+            Requests {metaData.requestedCount}
           </Button>
           <Button
-            onClick={onSelectPetitionType}
-            value={"provide"}
             variant="info"
+            value={"provide"}
+            onClick={onSelectPetitionType}
           >
-            Available
+            Available {metaData.requestedCount}
           </Button>
           <Button
-            onClick={onSelectPetitionType}
-            value={"relived"}
             variant="success"
+            value={"relived"}
+            onClick={onSelectPetitionType}
           >
-            Relived
+            Relived {metaData.completedCount}
           </Button>
         </ButtonGroup>
         <ListGroup style={{ maxHeight: "100vh" }}>
