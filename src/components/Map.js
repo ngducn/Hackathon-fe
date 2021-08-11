@@ -50,10 +50,11 @@ function MapContainer(props) {
 
   useEffect(() => {
     window.navigator.geolocation.getCurrentPosition((foo) => {
-      setCurrentLocation({
+      const location = {
         lat: foo.coords.latitude,
         lng: foo.coords.longitude,
-      });
+      };
+      setCurrentLocation(location);
     });
   }, []);
 
