@@ -41,12 +41,12 @@ function HomePage() {
     providersWaiting: 0,
   })
 
-  const getItems = async (petitionId) => {
-    const resp = await fetch(url + "/petitions/" + petitionId + "/items");
-    const json = await resp.json();
-    const items = json.data.items;
-    return items;
-  };
+  // const getItems = async (petitionId) => {
+  //   const resp = await fetch(url + "/petitions/" + petitionId + "/items");
+  //   const json = await resp.json();
+  //   const items = json.data.items;
+  //   return items;
+  // };
 
   useEffect(() => {
     const fetchPetitions = async () => {
@@ -88,12 +88,13 @@ function HomePage() {
     <Row>
       <Col
         md="3"
-        className="p-1"
+        className="pl-5"
         style={{ maxHeight: "100vh", overflowY: "scroll" }}
       >
         <Form className="m-3">
           <Form.Control type="query" placeholder="Facemasks..." />
         </Form>
+        <h3>{selectedPetitionType}</h3>
         <ButtonGroup aria-label="Basic example" className="m-3">
           <Button
             variant="danger"
@@ -124,7 +125,11 @@ function HomePage() {
         </ListGroup>
       </Col>
       <Col md="9">
-        <Map petitions={petitions} />
+        <Map
+          petitions={petitions}
+          selectedPetition={selectedPetition}
+          setSelectedPetition={setSelectedPetition}
+        />
       </Col>
     </Row>
   );
