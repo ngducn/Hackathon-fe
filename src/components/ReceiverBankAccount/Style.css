@@ -1,0 +1,75 @@
+.container-border-Transfer {
+  box-shadow: 0 2px 20px rgb(216, 216, 216);
+  /* background-color: ; */
+  border-radius: 5px;
+  margin-top: 2vw;
+  font-family: Trebuchet, Arial, sans-serif;
+  padding-left: 2vw;
+  padding-right: 2vw;
+  overflow: hidden;
+  display: flex !important;
+  flex-direction: column;
+  margin-bottom: 10vh;
+  padding-bottom: 5vh;
+  padding-top: 5vh;
+}
+.numberBox {
+  padding-left: 2vw;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  border-radius: 5px;
+  margin-left: 2vw;
+  padding-bottom: 2vh;
+  padding-top: 2vh;
+  border: 1px solid white;
+  font-size: 20px;
+}
+.textarea {
+  max-width: 100%;
+  max-height: 40em;
+  min-height: 8em;
+}
+.greenBox {
+  border: 2px solid #f3b3abc7;
+  background-color: #f3b3abc7;
+  margin-top: 2vw;
+  border-radius: 2px;
+  font-size: 12px;
+  color: rgb(85, 84, 84);
+}
+.padding2vw {
+  margin-top: 2vw;
+}
+/*This is modifying the btn-primary colors but you could create your own .btn-something class as well*/
+.btn-primary-t {
+  margin-top: 2vh;
+  color: #fff;
+  background-color: #ff4c68;
+  border-color: #ff4c68;
+}
+.btn-primary-t:hover,
+.btn-primary-t:focus,
+.btn-primary-t:active,
+.btn-primary-t.active,
+.open > .dropdown-toggle.btn-primary-t {
+  color: #fff;
+  background-color: #ff4c68;
+  border-color: #ff4c68;
+  box-shadow: inset 0 1px 1px #ef8172, 0 0 8px #ef8172;
+}
+.formControl:focus {
+  border-color: green !important;
+  box-shadow: inset 0 1px 1px rgba(0, 255, 55, 0.6),
+    0 0 8px rgba(23, 207, 63, 0.6);
+}
+li {
+  padding-left: 2vw;
+  font-size: 10px;
+}
+
+.verificationButtons {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+}
