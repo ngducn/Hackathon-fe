@@ -1,5 +1,4 @@
 import React from "react";
-import { Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
 import "./ReceiverCard.css";
@@ -17,7 +16,7 @@ const ReceiverCard = ({
   return (
     <>
       <CardGroup>
-        <Row className="card-space ">
+        <Row className='card-space '>
           <Col xs={12} md={3} lg={4}>
             <Card
               style={{
@@ -26,7 +25,7 @@ const ReceiverCard = ({
               }}
             >
               <Card.Img
-                variant="top"
+                variant='top'
                 src={media}
                 style={{
                   width: "100%",
@@ -37,7 +36,7 @@ const ReceiverCard = ({
               />
               <Card.Body>
                 <Card.Title>For: {requestingFor}</Card.Title>
-                <Card.Subtitle className="mb-2 text-muted">
+                <Card.Subtitle className='mb-2 text-muted'>
                   {need} VND
                 </Card.Subtitle>
                 <Card.Text>
@@ -50,7 +49,7 @@ const ReceiverCard = ({
                   </div>
                 </Card.Text>
               </Card.Body>
-              <ProgressBar variant="success" now={40} />
+              <ProgressBar variant='success' now={40} />
             </Card>
           </Col>
         </Row>
