@@ -11,6 +11,7 @@ import moment from 'moment'
 import i18n from "i18next";
 import { useTranslation } from "react-i18next";
 import "../../translations/i18n";
+import { useHistory } from "react-router";
 
 import Map from "../../components/Map";
 
@@ -108,6 +109,7 @@ function HomePage() {
   }
 
   const [language, setLanguage] = useState("en");
+  const history = useHistory();
 
   const handleChangeLanguage = (e) => {
     e.preventDefault();
@@ -137,6 +139,7 @@ function HomePage() {
             </button>
           );
         })}
+        <button onClick={()=>{history.push("/funding")}}>funding page</button>
         <h3>{selectedPetitionType}</h3>
         <SelectedPetitionInfoPanelSidebar petition={selectedPetition} />
         <ButtonGroup aria-label="Basic example" className="m-3" vertical>
