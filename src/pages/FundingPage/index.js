@@ -9,7 +9,7 @@ import { useDispatch, useSelector } from "react-redux";
 
 const FundingPage = () => {
   const dispatch = useDispatch();
-  useEffect(() => dispatch(getDonationRequests(20)), []);
+  useEffect(() => dispatch(getDonationRequests(20)), [dispatch]);
   const donationRequests = useSelector(
     (state) => state.requests.donationRequests
   );

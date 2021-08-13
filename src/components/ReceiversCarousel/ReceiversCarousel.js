@@ -2,10 +2,9 @@ import React from "react";
 import "./ReceiverCarousel.css";
 import Card from "../ReceiverCard/ReceiverCard";
 
-import SwiperCore, { Navigation, Pagination, Scrollbar, A11y } from "swiper";
-import { Col, Container, Row } from "react-bootstrap";
+import SwiperCore, { Navigation } from "swiper";
+import { Container, Row } from "react-bootstrap";
 
-import { Swiper, SwiperSlide } from "swiper/react";
 SwiperCore.use([Navigation]);
 
 const ReceiversCarousel = ({ items }) => {
